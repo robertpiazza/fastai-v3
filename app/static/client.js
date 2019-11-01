@@ -30,6 +30,7 @@ function analyze() {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
       el("result-label").innerHTML = `Result = ${response["result"]}`;
+      el("result_micro-label").innerHTML = `Specific Class guess: ${response["result_micro"]}`
     }
     el("analyze-button").innerHTML = "Analyze";
   };
