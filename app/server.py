@@ -12,7 +12,11 @@ from starlette.staticfiles import StaticFiles
 export_file_url = 'https://drive.google.com/uc?export=download&id=1aCzT1JHiRrNogRk-V-Yi3jI_q2c-1_ea'
 export_file_name = 'macro_export.pkl'
 
+export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
+export_file_name_micro = 'micro_export.pkl'
+
 classes = ['amphib','carrier','corvette','destroyer','frigate','gunboat','mine','missile','subchaser','tender']
+classes_micro = ['arleigh_burke_destroyer', 'dayun_904_tender', 'fuchi_903_tender', 'fuqing_905_tender', 'fusu_908_tender', 'haiqing_037IS_subchaser', 'houbei_022_missile', 'houjian_houxin_037_missile', 'jiangdao_056_corvette', 'jianghu_053H1_frigate', 'jiangkai_II_054A_frigate', 'jiangkai_I_054_frigate', 'jiangwei_II_053H3_frigate', 'liaoning_001_carrier', 'luda_051_destroyer', 'luhai_051B_destroyer', 'luhu_052_destroyer', 'luyang_III_052D_destroyer', 'luyang_II_052C_destroyer', 'luyang_I_052B_destroyer', 'luzhou_051C_destroyer', 'renhai_055_destroyer', 'shanghai_III_062I_gunboat', 'sovremenny_956_destroyer', 'wasao_082_mine', 'wazang_082II_mine', 'wochi_081_mine', 'yubei_074A_amphib', 'yudeng_073III_amphib', 'yuhai_074_amphib', 'yukan_072_amphib', 'yunshu_073A_amphib', 'yuting_072II_amphib', 'yuting_III_072A_amphib', 'yuting_II_072III_amphib', 'yuzhao_071_amphib']
 path = Path(__file__).parent
 
 app = Starlette()
@@ -42,10 +46,28 @@ async def setup_learner():
         else:
             raise
 
+async def setup_learner2():
+    await download_file(export_file_url_micro, path / export_file_name_micro)
+    try:
+        learn_micro = load_learner(path, export_file_name_micro)
+        return learn_micro
+    except RuntimeError as e:
+        if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
+            print(e)
+            message = "\n\nThis model was trained with an old version of fastai and will not work in a CPU environment.\n\nPlease update the fastai library in your training environment and export your model again.\n\nSee instructions for 'Returning to work' at https://course.fast.ai."
+            raise RuntimeError(message)
+        else:
+            raise            
+
 
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
 learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
+loop.close()
+
+loop = asyncio.get_event_loop()
+tasks = [asyncio.ensure_future(setup_learner2())]
+learn_micro = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
 
@@ -61,7 +83,8 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    prediction_micro = learn_micro.predict(img)[0]
+    return JSONResponse({'result': str(prediction), 'result_micro': str(prediction_micro)})
 
 
 if __name__ == '__main__':
