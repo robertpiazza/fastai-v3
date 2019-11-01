@@ -50,17 +50,17 @@ button.choose-file-button {
     height: 40px;
     border-radius: 2px;
     background-color: #ffffff;
-    border: solid 1px #7052CB;
+    border: solid 1px #0000ff;
     font-size: 13px;
-    color: #7052CB;
+    color: #0000ff;
 }
 
 button.analyze-button {
     width: 200px;
     height: 40px;
-    border: solid 1px #7052CB;
+    border: solid 1px #f2c200;
     border-radius: 2px;
-    background-color: #7052CB;
+    background-color: #f2c200;
     font-size: 13px;
     color: #ffffff;
 }
