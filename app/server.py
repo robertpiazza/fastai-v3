@@ -82,7 +82,7 @@ async def analyze(request):
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
 	#micro_prediction = learn_micro.predict(img)[0]
-	micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
+    micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
 
