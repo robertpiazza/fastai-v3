@@ -81,7 +81,7 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    micro_prediction = learn_micro.predict(img)[0]
+    micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
