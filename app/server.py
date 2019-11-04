@@ -50,7 +50,7 @@ async def setup_learner():
 async def setup_micro_learner():
     await download_file(export_file_url_micro, path / export_file_name_micro)
     try:
-        learn = load_learner(path, export_file_name_micro)
+        learn_micro = load_learner(path, export_file_name_micro)
         return learn_micro
     except RuntimeError as e:
         if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
@@ -64,6 +64,8 @@ async def setup_micro_learner():
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
 learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
+tasks_micro = [asyncio.ensure_future(setup_micro_learner())]
+learn_micro = loop.run_until_complete(asyncio.gather(*tasks_micro))[0]
 loop.close()
 
 
@@ -79,7 +81,8 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+	micro_prediction = learn_micro.predict(img)[0]
+    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
 
 if __name__ == '__main__':
