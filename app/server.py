@@ -64,8 +64,8 @@ async def setup_micro_learner():
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
 learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
-#tasks_micro = [asyncio.ensure_future(setup_micro_learner())]
-#learn_micro = loop.run_until_complete(asyncio.gather(*tasks_micro))[0]
+tasks_micro = [asyncio.ensure_future(setup_micro_learner())]
+learn_micro = loop.run_until_complete(asyncio.gather(*tasks_micro))[0]
 loop.close()
 
 
@@ -81,8 +81,8 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-	#micro_prediction = learn_micro.predict(img)[0]
-    micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
+    micro_prediction = learn_micro.predict(img)[0]
+    #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
 
