@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 import uvicorn
+import pandas as pd
 from fastai import *
 from fastai.vision import *
 from io import BytesIO
@@ -14,6 +15,10 @@ export_file_name = 'macro_export.pkl'
 
 export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
 export_file_name_micro = 'micro_export.pkl'
+
+ship_class_info = pd.read_csv('Ships_by_hull_numbers.csv', index_col = 0)
+ship_class_info.sort_index(inplace = True)
+
 
 classes = ['amphib','carrier','corvette','destroyer','frigate','gunboat','mine','missile','subchaser','tender']
 #classes_micro = ['arleigh_burke_destroyer', 'dayun_904_tender', 'fuchi_903_tender', 'fuqing_905_tender', 'fusu_908_tender', 'haiqing_037IS_subchaser', 'houbei_022_missile', 'houjian_houxin_037_missile', 'jiangdao_056_corvette', 'jianghu_053H1_frigate', 'jiangkai_II_054A_frigate', 'jiangkai_I_054_frigate', 'jiangwei_II_053H3_frigate', 'liaoning_001_carrier', 'luda_051_destroyer', 'luhai_051B_destroyer', 'luhu_052_destroyer', 'luyang_III_052D_destroyer', 'luyang_II_052C_destroyer', 'luyang_I_052B_destroyer', 'luzhou_051C_destroyer', 'renhai_055_destroyer', 'shanghai_III_062I_gunboat', 'sovremenny_956_destroyer', 'wasao_082_mine', 'wazang_082II_mine', 'wochi_081_mine', 'yubei_074A_amphib', 'yudeng_073III_amphib', 'yuhai_074_amphib', 'yukan_072_amphib', 'yunshu_073A_amphib', 'yuting_072II_amphib', 'yuting_III_072A_amphib', 'yuting_II_072III_amphib', 'yuzhao_071_amphib']
@@ -85,6 +90,16 @@ async def analyze(request):
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
+@app.route('/hull_lookup', methods=['POST'])
+async def hull_lookup(request):
+    form_data = await request.form()
+    hull_text = await (int(form_data['hull_text'].read()))
+    try:
+        info = ship_class_info.loc[hull_text,'Combined']
+    except:
+        info = 'Hull number is unknown'
+    #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
+    return JSONResponse({'hull_information': str(info)})
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
