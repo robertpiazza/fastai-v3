@@ -87,9 +87,9 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
+    #micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
     #prediction = 'big_predict'
-    #micro_prediction = 'little_predict'
+    micro_prediction = 'little_predict'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
@@ -98,8 +98,8 @@ async def hull_lookup(request):
     form_data = await request.form()
     hull_text = await (int(form_data['hull_text'].read()))
     try:
-        #info = ship_class_info.loc[hull_text,'Combined']
-        info = 'alternate info'
+        info = ship_class_info.loc[hull_text,'Combined']
+        #info = 'Test Text'
     except:
         info = 'Hull number is unknown'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"

@@ -45,7 +45,6 @@ function submitHull() {
   if (hullText.length === 0) alert("Please input a number!");
 
   el("submit-hull-button").innerHTML = "Submitting...";
-  el("result_hull-label").innerHTML = hullText
   var xhr = new XMLHttpRequest();
   var loc = window.location;
   xhr.open("POST", `${loc.protocol}//${loc.hostname}:${loc.port}/hull_lookup`,
@@ -56,7 +55,7 @@ function submitHull() {
   xhr.onload = function(e) {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
-      el("result_hull-label").innerHTML = `Number lookup: ${response["hull_information"]}`;
+      el("result_hull-label").innerHTML = `Hull lookup: ${response["hull_information"]}`;
     }
     el("submit-hull-button").innerHTML = "Submit";
   };
