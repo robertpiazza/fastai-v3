@@ -90,16 +90,7 @@ async def analyze(request):
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
-@app.route('/hull_lookup', methods=['POST'])
-async def hull_lookup(request):
-    form_data = await request.form()
-    hull_text = await (int(form_data['hull_text'].read()))
-    try:
-        info = ship_class_info.loc[hull_text,'Combined']
-    except:
-        info = 'Hull number is unknown'
-    #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
-    return JSONResponse({'hull_information': str(info)})
+
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
