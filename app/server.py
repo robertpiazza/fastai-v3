@@ -95,7 +95,7 @@ async def analyze(request):
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
-    form_data = await request.form()
+    form_data = await request.json()
     hull_text = await (form_data['hull_text'])
     hull_text = int(hull_text)
     try:
