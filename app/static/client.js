@@ -33,7 +33,6 @@ function submitHull(input) {
     }
     el("submit-hull-button").innerHTML = "Submit";
   };
-
   var hullData = new FormData();
   hullData.append("hull_text", hull_upload);
   xhr.send(hullData);

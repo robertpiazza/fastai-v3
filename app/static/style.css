@@ -66,8 +66,8 @@ button.analyze-button {
 }
 
 button.submit-hull-button {
-    width: 200px;
-    height: 40px;
+    width: 150px;
+    height: 20px;
     border: solid 1px #f2c200;
     border-radius: 2px;
     background-color: #f2c200;
