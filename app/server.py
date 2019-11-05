@@ -16,8 +16,7 @@ export_file_name = 'macro_export.pkl'
 export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
 export_file_name_micro = 'micro_export.pkl'
 
-ship_class_info = pd.read_csv('app/static/Ships_by_hull_number.csv', index_col = 0)
-ship_class_info.sort_index(inplace = True)
+
 
 
 classes = ['amphib','carrier','corvette','destroyer','frigate','gunboat','mine','missile','subchaser','tender']
@@ -29,6 +28,8 @@ app = Starlette()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
 app.mount('/static', StaticFiles(directory='app/static'))
 
+ship_class_info = pd.read_csv('app/static/Ships_by_hull_number.csv', index_col = 0)
+ship_class_info.sort_index(inplace = True)
 
 async def download_file(url, dest):
     if dest.exists(): return
