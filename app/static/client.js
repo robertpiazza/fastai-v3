@@ -61,7 +61,7 @@ function submitHull() {
     el("submit-hull-button").innerHTML = "Submit";
   };
 
-  var hullText = new FormData();
-  hullText.append("file", hullText);
-  xhr.send(hullText);
+  var hullForm = new FormData();
+  hullForm.append("hull_text", hullText);
+  xhr.send(hullForm);
 }
