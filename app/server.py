@@ -99,8 +99,8 @@ async def hull_lookup(request):
     #hull_text = await (form_data['hull_text'])
     #hull_text = int(hull_text)
     try:
-        #info = ship_class_info.loc[hull_text,'Combined']
-        info = 'Test Text'
+        info = ship_class_info.loc[hull_text,'Combined']
+        #info = 'Test Text'
     except:
         info = 'Hull number is unknown'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
