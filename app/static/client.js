@@ -42,7 +42,7 @@ function analyze() {
 
 function submitHull() {
   var hullText = el("hull-text").value;
-  if (uploadFiles.length === 0) alert("Please input a number!");
+  if (hullText.length === 0) alert("Please input a number!");
 
   el("submit-hull-button").innerHTML = "Submitting...";
   var xhr = new XMLHttpRequest();
