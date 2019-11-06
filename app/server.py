@@ -85,7 +85,7 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     macro_prediction = learn_macro.predict(img)
-    prediction = f"{macro_prediction[0]} ({round(macro_prediction[2].max().item()*100)}% Probability)"
+    prediction = f"{macro_prediction[0].title()} ({round(macro_prediction[2].max().item()*100)}% Probability)"
     #micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
     #make predictions for individual classes
     micro_prediction = learn_micro.predict(img)
