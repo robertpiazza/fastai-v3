@@ -36,7 +36,7 @@ async def download_file(url, dest):
                 f.write(data)
 
 
-async def setup_learner():
+async def setup_learner_macro():
     await download_file(export_file_url, path / export_file_name)
     try:
         learn_macro = load_learner(path, export_file_name)
@@ -66,8 +66,10 @@ async def setup_learner_micro():
 
 
 loop = asyncio.get_event_loop()
-tasks = [asyncio.ensure_future(setup_learner_micro())]
+tasks_micro = [asyncio.ensure_future(setup_learner_micro())]
 learn_micro = loop.run_until_complete(asyncio.gather(*tasks))[0]
+tasks_macro = [asyncio.ensure_future(setup_learner_macro())]
+learn_macro = loop.run_until_complete(asyncio.gather(*tasks_macro))[0]
 loop.close()
 
 
@@ -82,8 +84,9 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn_micro.predict(img)[0]
-    micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
+    prediction = learn_macro.predict(img)[0]
+    micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
+    #micro_prediction = micro_prediction
     #prediction = 'big_predict'
     #micro_prediction = 'Not currently implemented.'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
