@@ -89,6 +89,7 @@ async def analyze(request):
     #micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
     #make predictions for individual classes
     micro_prediction = learn_micro.predict(img)
+    result_micro = str(micro_prediction[0]).replace('_',' ').title().replace("Iii", "III").replace("Ii",'II')
     #combine labels and probabilities
     micro_predictions_df = pd.DataFrame({"Probability":micro_prediction[2].tolist(), "Classes":learn_micro.data.classes})
     #find top 5
@@ -101,7 +102,7 @@ async def analyze(request):
     #prediction = 'big_predict'
     #micro_prediction = 'Not currently implemented.'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
-    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction[0]).replace('_',' '), 'top_5':top_5_results})
+    return JSONResponse({'result': prediction, 'result_micro':result_micro, 'top_5':top_5_results})
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
