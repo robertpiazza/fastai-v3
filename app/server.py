@@ -28,8 +28,6 @@ app = Starlette()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
 app.mount('/static', StaticFiles(directory='app/static'))
 
-ship_class_info = pd.read_csv('app/static/Ships_by_hull_number.csv', index_col = 0)
-ship_class_info.sort_index(inplace = True)
 
 async def download_file(url, dest):
     if dest.exists(): return
@@ -98,6 +96,8 @@ async def hull_lookup(request):
     #form_data = await request.form()
     #hull_text = form_data['hull_text']
     #hull_text = 101
+    ship_class_info = pd.read_csv('static/Ships_by_hull_number.csv', index_col = 0)
+    ship_class_info.sort_index(inplace = True)
     try:
         info = ship_class_info.loc[101,'Combined']
         #info = hull_text
