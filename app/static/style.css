@@ -61,12 +61,6 @@ table {
   border-collapse: collapse;
 }
 
-table.center {
-  width:80%;
-  margin-left:10%;
-  margin-right:10%;
-}
-
 th, td {
   text-align: left;
   padding: 8px;
