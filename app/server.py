@@ -89,7 +89,8 @@ async def analyze(request):
     #micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
     #make predictions for individual classes
     micro_prediction = learn_micro.predict(img)
-    result_micro = str(micro_prediction[0]).replace('_',' ').title().replace("Iii", "III").replace("Ii",'II')
+    result_micro_text = str(micro_prediction[0]).replace('_',' ').title().replace("Iii", "III").replace("Ii",'II')
+    result_micro = f"{result_micro_text} ({round(micro_prediction[2].max().item()*100)}% Probability)"
     #combine labels and probabilities
     micro_predictions_df = pd.DataFrame({"Probability":micro_prediction[2].tolist(), "Classes":learn_micro.data.classes})
     #find top 5
