@@ -59,6 +59,8 @@ body {
 
 table {
   border-collapse: collapse;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 th, td {
