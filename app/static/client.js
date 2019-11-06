@@ -29,7 +29,7 @@ function analyze() {
   xhr.onload = function(e) {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
-      el("result-label").innerHTML = `Major Class = ${response["result"]}`;
+      el("result-label").innerHTML = `Major Class: ${response["result"]}`;
       el("result_micro-label").innerHTML = `Specific Class guess: ${response["result_micro"]}`;
       el("top_5_results-label").innerHTML = `Top 5 with Probabilities: ${response["top_5"]}`;
     }
