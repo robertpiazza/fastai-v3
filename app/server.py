@@ -87,7 +87,7 @@ async def analyze(request):
     macro_prediction = learn_macro.predict(img)
     
     #prediction string
-    prediction = f"{str(macro_prediction[0]).title()} ({round(macro_prediction[2].max().item()*100)}% Probability)"
+    prediction = f"{str(macro_prediction[0]).title()} ({int(macro_prediction[2].max().item()*100)}% Probability)"
     
     #make predictions for individual classes
     micro_prediction = learn_micro.predict(img)

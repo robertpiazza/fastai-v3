@@ -59,6 +59,7 @@ body {
 
 table {
   border-collapse: collapse;
+  width: 100%;
   margin-left:auto;
   margin-right:auto;
 }
