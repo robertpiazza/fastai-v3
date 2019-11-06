@@ -63,5 +63,5 @@ function submitHull() {
   var hullForm = new FormData();
   hullForm.append("hull_text", hullText);
   xhr.send(hullForm);
-  el("submit-hull-button").innerHTML = "Submitted no response";
+  el("result_hull-label").innerHTML = "Submitted no response";
 }
