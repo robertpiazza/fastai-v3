@@ -2,6 +2,7 @@ import aiohttp
 import asyncio
 import uvicorn
 import pandas as pd
+import re
 from fastai import *
 from fastai.vision import *
 from io import BytesIO
@@ -123,6 +124,7 @@ async def hull_lookup(request):
        'Commissioned', 'Tons', 'Fleet', 'Status']
         ship_class_info['Names'] = (ship_class_info.Name+'/'+ship_class_info['Name.1']).fillna('')
         ship_class_info["Pennant No."] = ship_class_info["Pennant No."].fillna(0).map(int)
+        ship_class_info["Type"] = ship_class_info.Type.apply(lambda x: re.sub(r'( [a-z]+)', lambda m: m.group(0).title(), x))
         info = ship_class_info.loc[int(hull_text):int(hull_text),['Pennant No.', 'Nato Designation', 'Type', 'Names', 'Commissioned', 'Tons', 'Fleet']].to_html(index = False)
     except:
         info = 'Hull number is unknown or ship is no longer active'
