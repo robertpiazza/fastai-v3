@@ -121,8 +121,9 @@ async def hull_lookup(request):
         ship_class_info.index = ship_class_info.index.rename("Hull Number")
         ship_class_info.columns = ['Information', 'Type', 'Nato Designation', 'Pennant No.', 'Name', 'Name.1',
        'Commissioned', 'Tons', 'Fleet', 'Status']
+        ship_class_info['Names'] = (ship_class_info.Name+'/'+ship_class_info['Name.1']).fillna('')
         ship_class_info["Pennant No."] = ship_class_info["Pennant No."].fillna(0).map(int)
-        info = ship_class_info.loc[int(hull_text):int(hull_text),['Pennant No.', 'Information']].to_html(index = False)
+        info = ship_class_info.loc[int(hull_text):int(hull_text),['Pennant No.', 'Nato Designation', 'Type', 'Names', 'Commissioned', 'Tons', 'Fleet']].to_html(index = False)
     except:
         info = 'Hull number is unknown or ship is no longer active'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
