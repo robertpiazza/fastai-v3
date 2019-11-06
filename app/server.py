@@ -83,8 +83,6 @@ async def hull_lookup(request):
         hull_text = form_data['hull_text']
         ship_class_info = pd.read_csv(path / 'static/Ships_by_hull_number.csv', index_col = 0)
         info = ship_class_info.loc[int(hull_text),'Combined']
-        #info = hull_text
-        #info = 'Test Text 101'
     except:
         info = 'Hull number is unknown'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
