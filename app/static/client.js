@@ -56,7 +56,7 @@ function submitHull() {
   xhr.onload = function(e) {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
-      el("result_hull-label").innerHTML = `${hullText} Hull lookup: ${response["hull_information"]}`;
+      el("result_hull-label").innerHTML = `Hull ${hullText} lookup: ${response["hull_information"]}`;
     }
     el("submit-hull-button").innerHTML = "Submit";
   };
