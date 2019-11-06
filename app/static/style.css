@@ -51,6 +51,12 @@ body {
     font-size: 18px;
 }
 
+.top_5_results-label {
+    margin-top: 0.25em;
+    padding: 5px;
+    font-size: 18px;
+}
+
 button.choose-file-button {
     width: 200px;
     height: 40px;

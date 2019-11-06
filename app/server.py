@@ -18,7 +18,7 @@ export_file_name_micro = 'micro_export.pkl'
 
 
 #classes = ['amphib','carrier','corvette','destroyer','frigate','gunboat','mine','missile','subchaser','tender']
-#classes_micro = ['arleigh_burke_destroyer', 'dayun_904_tender', 'fuchi_903_tender', 'fuqing_905_tender', 'fusu_908_tender', 'haiqing_037IS_subchaser', 'houbei_022_missile', 'houjian_houxin_037_missile', 'jiangdao_056_corvette', 'jianghu_053H1_frigate', 'jiangkai_II_054A_frigate', 'jiangkai_I_054_frigate', 'jiangwei_II_053H3_frigate', 'liaoning_001_carrier', 'luda_051_destroyer', 'luhai_051B_destroyer', 'luhu_052_destroyer', 'luyang_III_052D_destroyer', 'luyang_II_052C_destroyer', 'luyang_I_052B_destroyer', 'luzhou_051C_destroyer', 'renhai_055_destroyer', 'shanghai_III_062I_gunboat', 'sovremenny_956_destroyer', 'wasao_082_mine', 'wazang_082II_mine', 'wochi_081_mine', 'yubei_074A_amphib', 'yudeng_073III_amphib', 'yuhai_074_amphib', 'yukan_072_amphib', 'yunshu_073A_amphib', 'yuting_072II_amphib', 'yuting_III_072A_amphib', 'yuting_II_072III_amphib', 'yuzhao_071_amphib']
+classes_micro = ['arleigh_burke_destroyer', 'dayun_904_tender', 'fuchi_903_tender', 'fuqing_905_tender', 'fusu_908_tender', 'haiqing_037IS_subchaser', 'houbei_022_missile', 'houjian_houxin_037_missile', 'jiangdao_056_corvette', 'jianghu_053H1_frigate', 'jiangkai_II_054A_frigate', 'jiangkai_I_054_frigate', 'jiangwei_II_053H3_frigate', 'liaoning_001_carrier', 'luda_051_destroyer', 'luhai_051B_destroyer', 'luhu_052_destroyer', 'luyang_III_052D_destroyer', 'luyang_II_052C_destroyer', 'luyang_I_052B_destroyer', 'luzhou_051C_destroyer', 'renhai_055_destroyer', 'shanghai_III_062I_gunboat', 'sovremenny_956_destroyer', 'wasao_082_mine', 'wazang_082II_mine', 'wochi_081_mine', 'yubei_074A_amphib', 'yudeng_073III_amphib', 'yuhai_074_amphib', 'yukan_072_amphib', 'yunshu_073A_amphib', 'yuting_072II_amphib', 'yuting_III_072A_amphib', 'yuting_II_072III_amphib', 'yuzhao_071_amphib']
 
 path = Path(__file__).parent
 
@@ -84,13 +84,19 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn_macro.predict(img)[0]
-    micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
+    macro_prediction = learn_macro.predict(img)
+    prediction = f"{macro_prediction[0]} ({round(macro_prediction[2].max().item()*100)}% Probability)"
+    #micro_prediction = str(learn_micro.predict(img)[0]).replace('_', ' ')
+    micro_prediction = learn_micro.predict(img)
+    micro_predictions_df = pd.DataFrame({"Probability":micro_prediction[2].tolist(), "Classes":learn_micro.data.classes})
+    top_5 = micro_predictions_df.sort_values(by="Probability", ascending = False).head()
+    top_5['Combined'] = top_5.Classes.str.replace('_',' ')+' ('+((top_5.Probability*100).round()).map(int).map(str)+'%)'
+    top_5_results = ", ".join(top_5.Combined.tolist())
     #micro_prediction = micro_prediction
     #prediction = 'big_predict'
     #micro_prediction = 'Not currently implemented.'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
-    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
+    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction), 'top_5':top_5_results})
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
