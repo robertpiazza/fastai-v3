@@ -109,11 +109,15 @@ async def analyze(request):
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
     try:
+        pd.set_option('display.max_colwidth', -1)
         form_data = await request.form()
         hull_text = form_data['hull_text']
         ship_class_info = pd.read_csv(path / 'static/Ships_by_hull_number.csv', index_col = 0)
         ship_class_info.index = ship_class_info.index.rename("Hull Number")
-        info = ship_class_info.loc[int(hull_text):int(hull_text),['Combined']].to_html()
+        ship_class_info.columns = ['Information', 'Type', 'Nato Designation', 'Pennant No.', 'Name', 'Name.1',
+       'Commissioned', 'Tons', 'Fleet', 'Status']
+        ship_class_info["Pennant No."] = ship_class_info["Pennant No."].fillna(0).map(int)
+        info = ship_class_info.loc[int(hull_text):int(hull_text),['Pennant No.', 'Information']].to_html(index = False)
     except:
         info = 'Hull number is unknown or ship is no longer active'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
