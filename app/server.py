@@ -37,10 +37,23 @@ async def download_file(url, dest):
 
 
 async def setup_learner():
+    await download_file(export_file_url, path / export_file_name)
+    try:
+        learn_macro = load_learner(path, export_file_name)
+        return learn_macro
+    except RuntimeError as e:
+        if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
+            print(e)
+            message = "\n\nThis model was trained with an old version of fastai and will not work in a CPU environment.\n\nPlease update the fastai library in your training environment and export your model again.\n\nSee instructions for 'Returning to work' at https://course.fast.ai."
+            raise RuntimeError(message)
+        else:
+            raise
+
+async def setup_learner_micro():
     await download_file(export_file_url_micro, path / export_file_name_micro)
     try:
-        learn = load_learner(path, export_file_name_micro)
-        return learn
+        learn_micro = load_learner(path, export_file_name_micro)
+        return learn_micro
     except RuntimeError as e:
         if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
             print(e)
@@ -54,7 +67,7 @@ async def setup_learner():
 
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
-learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
+learn_macro = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
 
@@ -69,7 +82,7 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
+    prediction = learn_macro.predict(img)[0]
     #micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
     #prediction = 'big_predict'
     micro_prediction = 'Not currently implemented.'
