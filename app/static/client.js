@@ -29,7 +29,7 @@ function analyze() {
   xhr.onload = function(e) {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
-      el("result-label").innerHTML = `Result = ${response["result"]}`;
+      el("result-label").innerHTML = `Major Class = ${response["result"]}`;
       el("result_micro-label").innerHTML = `Specific Class guess: ${response["result_micro"]}`;
     }
     el("analyze-button").innerHTML = "Analyze (5-10 sec)";
@@ -63,4 +63,5 @@ function submitHull() {
   var hullForm = new FormData();
   hullForm.append("hull_text", hullText);
   xhr.send(hullForm);
+  el("submit-hull-button").innerHTML = "Submitted no response";
 }
