@@ -21,11 +21,11 @@ body {
 }
 
 .content {
-    margin-top: 10em;
+    margin-top: 2em;
 }
 
 .analyze {
-    margin-top: 5em;
+    margin-top: 2em;
 }
 
 .upload-label {
@@ -34,14 +34,20 @@ body {
 }
 
 .result-label {
-    margin-top: 0.5em;
+    margin-top: 0.25em;
     padding: 10px;
     font-size: 20px;
 }
 
 .result_micro-label {
-    margin-top: 0.5em;
-    padding: 10px;
+    margin-top: 0.25em;
+    padding: 5px;
+    font-size: 18px;
+}
+
+.result_hull-label {
+    margin-top: 0.25em;
+    padding: 5px;
     font-size: 18px;
 }
 
