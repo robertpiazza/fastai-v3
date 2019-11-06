@@ -96,8 +96,7 @@ async def analyze(request):
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
     form_data = await request.form()
-    hull_bytes = await (form_data['hull_text'])
-    hull_text = hull_bytes
+    hull_text = form_data['hull_text']
     try:
         #info = ship_class_info.loc[hull_text,'Combined']
         info = hull_text
