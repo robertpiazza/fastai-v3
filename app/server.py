@@ -95,11 +95,10 @@ async def analyze(request):
 async def hull_lookup(request):
     #form_data = await request.form()
     #hull_text = form_data['hull_text']
-    hull_text = 101
     ship_class_info = pd.read_csv('static/Ships_by_hull_number.csv', index_col = 0)
     ship_class_info.sort_index(inplace = True)
     try:
-        info = ship_class_info.loc[hull_text,'Combined']
+        info = ship_class_info.loc[101,'Combined']
         #info = hull_text
         #info = 'Test Text'
     except:
