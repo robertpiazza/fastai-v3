@@ -78,7 +78,7 @@ async def hull_lookup(request):
     #form_data = await request.form()
     #hull_text = form_data['hull_text']
     try:
-        ship_class_info = pd.read_csv('/static/Ships_by_hull_number.csv', index_col = 0)
+        ship_class_info = pd.read_csv('app/static/Ships_by_hull_number.csv', index_col = 0)
         #info = ship_class_info.loc[101,'Combined']
         #info = hull_text
         info = 'Test Text 101' 
