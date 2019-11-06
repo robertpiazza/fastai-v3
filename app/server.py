@@ -95,9 +95,10 @@ async def analyze(request):
     #find top 5
     top_5 = micro_predictions_df.sort_values(by="Probability", ascending = False).head()
     #create combined labels and probabilites
-    top_5['Combined'] = top_5.Classes.str.replace('_',' ')+' ('+((top_5.Probability*100).round()).map(int).map(str)+'%)'
+    top_5['Class and Probability'] = (top_5.Classes.str.replace('_',' ')+' ('+((top_5.Probability*100).round()).map(int).map(str)+'%)').apply(lambda x: x.title().replace("Iii", "III").replace("Ii",'II'))
     #capitalize each word and make sure versions stay good
-    top_5_results = ", ".join(top_5.Combined.tolist()).title().replace("Iii", "III").replace("Ii",'II')
+    #top_5_results = ", ".join(top_5.Combined.tolist()).title().replace("Iii", "III").replace("Ii",'II')
+    top_5_results = top_5[['Class and Probability']].to_html()
     #micro_prediction = micro_prediction
     #prediction = 'big_predict'
     #micro_prediction = 'Not currently implemented.'
