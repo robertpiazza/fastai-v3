@@ -111,7 +111,7 @@ async def hull_lookup(request):
         ship_class_info = pd.read_csv(path / 'static/Ships_by_hull_number.csv', index_col = 0)
         info = ship_class_info.loc[int(hull_text),'Combined']
     except:
-        info = 'Hull number is unknown'
+        info = 'Hull number is unknown or ship is no longer active'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'hull_information': str(info)})
 
