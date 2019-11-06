@@ -89,17 +89,18 @@ async def analyze(request):
     prediction = learn.predict(img)[0]
     #micro_prediction = learn_micro.predict(img)[0].replace('_', ' ')
     #prediction = 'big_predict'
-    micro_prediction = 'little_predict'
+    micro_prediction = 'Not currently implemented.'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
     return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction)})
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
-    form_data = await request.form()
-    hull_text = form_data['hull_text']
+    #form_data = await request.form()
+    #hull_text = form_data['hull_text']
+    #hull_text = 101
     try:
-        #info = ship_class_info.loc[hull_text,'Combined']
-        info = hull_text
+        info = ship_class_info.loc[101,'Combined']
+        #info = hull_text
         #info = 'Test Text'
     except:
         info = 'Hull number is unknown'
