@@ -110,7 +110,7 @@ async def hull_lookup(request):
     try:
         form_data = await request.form()
         hull_text = form_data['hull_text']
-        ship_class_info = pd.read_csv('static/Ships_by_hull_number.csv', index_col = 0)
+        ship_class_info = pd.read_csv(path / 'static/Ships_by_hull_number.csv', index_col = 0)
         ship_class_info.index = ship_class_info.index.rename("Hull Number")
         info = ship_class_info.loc[int(hull_text):int(hull_text),['Combined']].to_html()
     except:
