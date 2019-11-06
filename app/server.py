@@ -101,7 +101,7 @@ async def analyze(request):
     #prediction = 'big_predict'
     #micro_prediction = 'Not currently implemented.'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
-    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction[0]), 'top_5':top_5_results})
+    return JSONResponse({'result': str(prediction), 'result_micro':str(micro_prediction[0]).replace('_',' '), 'top_5':top_5_results})
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
