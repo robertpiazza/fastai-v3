@@ -67,7 +67,7 @@ async def setup_learner_micro():
 
 loop = asyncio.get_event_loop()
 tasks_micro = [asyncio.ensure_future(setup_learner_micro())]
-learn_micro = loop.run_until_complete(asyncio.gather(*tasks))[0]
+learn_micro = loop.run_until_complete(asyncio.gather(*tasks_micro))[0]
 tasks_macro = [asyncio.ensure_future(setup_learner_macro())]
 learn_macro = loop.run_until_complete(asyncio.gather(*tasks_macro))[0]
 loop.close()
