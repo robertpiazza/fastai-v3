@@ -10,6 +10,9 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
+export_file_url = 'https://drive.google.com/uc?export=download&id=1aCzT1JHiRrNogRk-V-Yi3jI_q2c-1_ea'
+export_file_name = 'macro_export.pkl'
+
 export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
 export_file_name_micro = 'micro_export.pkl'
 
@@ -75,13 +78,13 @@ async def analyze(request):
 
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
-    #form_data = await request.form()
-    #hull_text = form_data['hull_text']
     try:
+        form_data = await request.form()
+        hull_text = form_data['hull_text']
         ship_class_info = pd.read_csv(path / 'static/Ships_by_hull_number.csv', index_col = 0)
-        info = ship_class_info.loc[101,'Combined']
+        info = ship_class_info.loc[int(hull_text),'Combined']
         #info = hull_text
-        #info = 'Test Text 101' 
+        #info = 'Test Text 101'
     except:
         info = 'Hull number is unknown'
     #micro_prediction = "Not currently implemented. Comments? email piazzr2@gmail.com"
