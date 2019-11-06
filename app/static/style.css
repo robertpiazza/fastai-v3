@@ -59,7 +59,12 @@ body {
 
 table {
   border-collapse: collapse;
-  width: 100%;
+}
+
+table.center {
+  width:80%;
+  margin-left:10%;
+  margin-right:10%;
 }
 
 th, td {
