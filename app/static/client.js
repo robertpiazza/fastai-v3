@@ -10,13 +10,43 @@ function showPicked(input) {
   reader.onload = function(e) {
     el("image-picked").src = e.target.result;
     el("image-picked").className = "";
+    el("no-image-picked").className = "no-display";
   };
   reader.readAsDataURL(input.files[0]);
 }
 
+function useExampleImage() {
+    el("upload-label").innerHTML = 'Carrier.jpg';
+    el("no-image-picked").className = "";
+
+    el("analyze-button").innerHTML = "Analyzing...";
+    var xhr = new XMLHttpRequest();
+    var loc = window.location;
+    xhr.open("POST", `${loc.protocol}//${loc.hostname}:${loc.port}/sample_analyze`,
+      true);
+    xhr.onerror = function() {
+      alert(xhr.responseText);
+    };
+    xhr.onload = function(e) {
+      if (this.readyState === 4) {
+        var response = JSON.parse(e.target.responseText);
+        el("result-label").innerHTML = `Major Class: ${response["result"]}`;
+        el("result_micro-label").innerHTML = `Specific Class guess: ${response["result_micro"]}`;
+        el("top_5_results-label").innerHTML = `Top 5 Class & NATO Types with Probabilities: ${response["top_5"]}`;
+      }
+      el("analyze-button").innerHTML = "Analyze (5-10 sec)";
+    };
+
+    var fileData = new FormData();
+    fileData.append("file", '0000');
+    xhr.send(fileData);
+}
+
+
 function analyze() {
   var uploadFiles = el("file-input").files;
   if (uploadFiles.length !== 1) alert("Please select a file to analyze!");
+
 
   el("analyze-button").innerHTML = "Analyzing...";
   var xhr = new XMLHttpRequest();
