@@ -16,6 +16,7 @@ function showPicked(input) {
 }
 
 function useExampleImage() {
+    var reader = new FileReader();
     el("upload-label").innerHTML = 'Carrier.jpg';
     el("no-image-picked").className = "";
 
