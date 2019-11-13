@@ -17,6 +17,9 @@ export_file_name = 'macro_export.pkl'
 export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
 export_file_name_micro = 'micro_export.pkl'
 
+example_file_url = 'https://drive.google.com/uc?export=download&id=1CX5D7AzBQTf_01bHSCcz6O40Nxqw6HkM'
+example_file_name = 'Carrier.jpg'
+
 
 path = Path(__file__).parent
 
@@ -115,8 +118,8 @@ async def analyze(request):
 @app.route('/sample_analyze', methods=['POST'])
 async def sample_analyze(request):
     #load hull number from webpage form
-    img_file = path / 'static' / 'Carrier.jpg'
-    img = open_image(img_file)
+    await download_file(example_file_url, path / example_file_name)
+    img = open_image(path / example_file_name)
 
     #make prediction
     macro_prediction = learn_macro.predict(img)

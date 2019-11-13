@@ -19,7 +19,6 @@ function useExampleImage() {
     var reader = new FileReader();
     el("upload-label").innerHTML = 'Carrier.jpg';
     el("no-image-picked").className = "";
-
     el("analyze-button").innerHTML = "Analyzing...";
     var xhr = new XMLHttpRequest();
     var loc = window.location;
@@ -47,7 +46,6 @@ function useExampleImage() {
 function analyze() {
   var uploadFiles = el("file-input").files;
   if (uploadFiles.length !== 1) alert("Please select a file to analyze!");
-
 
   el("analyze-button").innerHTML = "Analyzing...";
   var xhr = new XMLHttpRequest();
