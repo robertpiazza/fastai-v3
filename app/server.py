@@ -17,9 +17,6 @@ export_file_name = 'macro_export.pkl'
 export_file_url_micro = 'https://drive.google.com/uc?export=download&id=1cV2PaYK_9xmVAyS7E_xqYeoKJgOlruRB'
 export_file_name_micro = 'micro_export.pkl'
 
-example_file_url = 'https://drive.google.com/uc?export=download&id=1CX5D7AzBQTf_01bHSCcz6O40Nxqw6HkM'
-example_file_name = 'Carrier.jpg'
-
 
 path = Path(__file__).parent
 
@@ -82,7 +79,7 @@ async def homepage(request):
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
-    #load img file from webpage form
+    #load hull number from webpage form
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))

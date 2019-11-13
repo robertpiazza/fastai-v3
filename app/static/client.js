@@ -14,6 +14,7 @@ function showPicked(input) {
     el("result-label").innerHTML = ``;
     el("result_micro-label").innerHTML = ``;
     el("top_5_results-label").innerHTML = ``;
+    el("image-picked").className = "";
   };
   reader.readAsDataURL(input.files[0]);
 }
@@ -26,7 +27,6 @@ function useExampleImage() {
     el("result_micro-label").innerHTML = `Specific Class guess: Liaoning 001 Carrier (99% Probability)`;
     //el("top_5_results-label").innerHTML = `Top 5 Class & NATO Types with Probabilities: <table border="1" class="dataframe"><thead><tr style="text-align: right;"><th>Classes</th><th>Probability</th></tr></thead><tbody><tr><td>Liaoning 001 Carrier</td><td>99%</td></tr><tr><td>Fuqing 905 Tender</td><td>0%</td></tr><tr><td>Jiangkai I 054 Frigate</td><td>0%</td></tr><tr><td>Jianghu 053H1 Frigate</td><td>0%</td></tr><tr><td>Fuchi 903 Tender</td><td>0%</td></tr></tbody></table>`;
 }
-
 
 function analyze() {
   var uploadFiles = el("file-input").files;
