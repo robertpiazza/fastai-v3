@@ -115,40 +115,6 @@ async def analyze(request):
 
     return JSONResponse({'result': prediction, 'result_micro':result_micro, 'top_5':top_5_results})
 
-@app.route('/sample_analyze', methods=['POST'])
-async def sample_analyze(request):
-    #load hull number from webpage form
-    await download_file(example_file_url, path / example_file_name)
-    img = open_image(path / example_file_name)
-
-    #make prediction
-    macro_prediction = learn_macro.predict(img)
-
-    #prediction string
-    prediction = f"{str(macro_prediction[0]).title()} ({int(macro_prediction[2].max().item()*100)}% Probability)"
-
-    #make predictions for individual classes
-    micro_prediction = learn_micro.predict(img)
-    result_micro_text = str(micro_prediction[0]).replace('_',' ').title().replace("Iii", "III").replace("Ii",'II')
-    result_micro = f"{result_micro_text} ({int(micro_prediction[2].max().item()*100)}% Probability)"
-
-    #combine labels and probabilities
-    micro_predictions_df = pd.DataFrame({"Probability":micro_prediction[2].tolist(), "Classes":learn_micro.data.classes})
-
-    #find top 5
-    top_5 = micro_predictions_df.sort_values(by="Probability", ascending = False).head()
-    top_5.Classes = top_5.Classes.str.replace('_',' ').apply(lambda x: x.title().replace("Iii", "III").replace("Ii",'II'))
-    top_5.Probability = (top_5.Probability*100).map(int).map(str)+'%'
-    #create combined labels and probabilites
-    #capitalize each word and make sure versions stay good
-    #top_5['Class and Probability'] = (top_5.Classes.str.replace('_',' ')+' ('+((top_5.Probability*100).round()).map(int).map(str)+'%)').apply(lambda x: x.title().replace("Iii", "III").replace("Ii",'II'))
-
-    #create table string
-    #top_5_results = top_5[['Class and Probability']].to_html(index = False)
-    top_5_results = top_5[['Classes', 'Probability']].to_html(index = False)
-
-    return JSONResponse({'result': prediction, 'result_micro':result_micro, 'top_5':top_5_results})
-
 @app.route('/hull_lookup', methods=['POST'])
 async def hull_lookup(request):
     try:
