@@ -4,6 +4,7 @@ function showPicker() {
   el("file-input").click();
 }
 
+
 function showPicked(input) {
   el("upload-label").innerHTML = input.files[0].name;
   var reader = new FileReader();
@@ -32,9 +33,18 @@ function showExample() {
   //el("top_5_results-label").innerHTML = "";
 }
 
+var uploadField = el("file-input");
+uploadField.onchange = function() {
+    if(this.files[0].size > 1048576){
+       alert("Please limit file size to less than 1 Mb");
+       this.value = "";
+    };
+};
+
 function analyze() {
   var uploadFiles = el("file-input").files;
   if (uploadFiles.length !== 1) alert("Please select a file to analyze!");
+
 
   el("analyze-button").innerHTML = "Analyzing...";
   var xhr = new XMLHttpRequest();
