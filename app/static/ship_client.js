@@ -33,13 +33,6 @@ function showExample() {
   //el("top_5_results-label").innerHTML = "";
 }
 
-var uploadField = el("file-input");
-uploadField.onchange = function() {
-    if(this.files[0].size > 1048576){
-       alert("Please limit file size to less than 1 Mb");
-       this.value = "";
-    };
-};
 
 function analyze() {
   var uploadFiles = el("file-input").files;
