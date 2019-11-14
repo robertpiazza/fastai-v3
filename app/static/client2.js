@@ -29,6 +29,7 @@ function showExample() {
   + `<thead><tr style="text-align: right;"><th>Classes</th><th>Probability</th></tr></thead><tbody><tr><td>Liaoning 001 Carrier</td>`
   + `<td>99%</td></tr><tr><td>Fuqing 905 Tender</td><td>0%</td></tr><tr><td>Jiangkai I 054 Frigate</td><td>0%</td></tr>`
   + `<tr><td>Jianghu 053H1 Frigate</td><td>0%</td></tr><tr><td>Fuchi 903 Tender</td><td>0%</td></tr></tbody></table>`;
+  //el("top_5_results-label").innerHTML = "";
 }
 
 function analyze() {
